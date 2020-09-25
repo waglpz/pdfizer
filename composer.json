@@ -1,0 +1,79 @@
+{
+  "name": "waglpz/pdfizer",
+  "description": "pdfizer Web / Rest API Projekt",
+  "license": "MIT",
+  "type": "library",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "optimize-autoloader": true,
+    "apcu-autoloader": true,
+    "discard-changes": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "require": {
+    "php": "^7.4",
+    "ext-apcu": "*",
+    "ext-intl": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "ext-pcntl": "*",
+    "aidphp/http": "dev-master",
+    "psr/log": "^1.0",
+    "ramsey/uuid": "^4.1"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^5.3",
+    "liuggio/fastest": "^1.8",
+    "doctrine/coding-standard": "^9.0",
+    "phpstan/phpstan": "^0.12",
+    "phpstan/phpstan-deprecation-rules": "^0.12",
+    "phpstan/phpstan-doctrine": "^0.12",
+    "phpstan/phpstan-phpunit": "^0.12",
+    "phpstan/phpstan-strict-rules": "^0.12",
+    "phpstan/phpstan-symfony": "^0.12",
+    "phpstan/phpstan-webmozart-assert": "^0.12",
+    "phpunit/phpunit": "^9.1",
+    "roave/security-advisories": "dev-latest",
+    "squizlabs/php_codesniffer": "^3.5"
+  },
+  "conflict": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Pdfizer\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Pdfizer\\Tests\\": "tests/"
+    }
+  },
+  "replace": {
+  },
+  "scripts": {
+    "waglpz:cs-check": "phpcs -p --parallel=12",
+    "waglpz:cs-fix": "phpcbf -p --parallel=12",
+    "waglpz:test:normal": "phpunit --colors=always tests",
+    "waglpz:analyse": [
+      "phpstan analyse --configuration=phpstan.neon config/ src/ tests/ --level max"
+    ],
+    "waglpz:test:parallel": "find tests/ -name '*Test.php' | ./vendor/liuggio/fastest/fastest 'vendor/phpunit/phpunit/phpunit --testdox {};'",
+    "waglpz:check:ci": [
+      "@waglpz:cs-check",
+      "@waglpz:analyse",
+      "@waglpz:test:parallel"
+    ],
+    "waglpz:check:normal": [
+      "@waglpz:cs-check",
+      "@waglpz:analyse",
+      "@waglpz:test:normal"
+    ],
+    "waglpz:check:parallel": [
+      "@waglpz:cs-check",
+      "@waglpz:analyse",
+      "@waglpz:test:parallel"
+    ]
+  }
+}

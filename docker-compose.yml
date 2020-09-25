@@ -1,0 +1,35 @@
+version: '3.5'
+
+services:
+  pdfizer:
+    container_name: pdfizer-app
+    build:
+      context: .docker
+      args:
+        - APPUID=${APPUID}
+        - APPUGID=${APPUGID}
+    ports:
+      - ${APPPORT}:80
+    volumes:
+      - ./:/app
+      - .docker/php/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
+    networks:
+      pdfizer:
+        ipv4_address: 10.120.40.2
+    environment:
+      APP_ENV: "dev"
+#      APP_ENV: "prod"
+      XDEBUG_CONFIG: "remote_host=10.120.4.2"
+      PHP_IDE_CONFIG: "serverName=pdfizer-docker"
+
+networks:
+  pdfizer:
+    name: pdfizer
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.120.40.0/24
+
+# Entries should be placed in file /etc/hosts
+# please add to /etc/hosts file
+# 10.120.40.2 pdfizer-app
